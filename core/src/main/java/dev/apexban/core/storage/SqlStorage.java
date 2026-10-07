@@ -76,10 +76,11 @@ public final class SqlStorage {
         }
         File database = new File(dataFolder, settings.sqliteFile);
         final String url = "jdbc:sqlite:" + database.getAbsolutePath();
+        // NOTE: do NOT pass pragmas (journal_mode, synchronous...) as connection properties.
+        // Legacy servers (Spigot/Paper 1.8.x) ship an ancient sqlite-jdbc that wins over the shaded one
+        // and runs property pragmas through executeBatch(), which fails with
+        // "batch entry 0: query returns results". Plain execute() after connecting works on every driver.
         final Properties properties = new Properties();
-        properties.setProperty("busy_timeout", "10000");
-        properties.setProperty("journal_mode", "WAL");
-        properties.setProperty("synchronous", "NORMAL");
         final Driver driver = new org.sqlite.JDBC();
         return new ConnectionProvider() {
             @Override
@@ -88,6 +89,9 @@ public final class SqlStorage {
                 if (connection == null) {
                     throw new SQLException("SQLite driver rejected the connection URL");
                 }
+                applyPragma(connection, "PRAGMA busy_timeout=10000");
+                applyPragma(connection, "PRAGMA journal_mode=WAL");
+                applyPragma(connection, "PRAGMA synchronous=NORMAL");
                 return connection;
             }
 
@@ -95,6 +99,14 @@ public final class SqlStorage {
             public void close() {
             }
         };
+    }
+
+    private void applyPragma(Connection connection, String sql) {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        } catch (SQLException ex) {
+            logger.warn("SQLite pragma failed (" + sql + "): " + ex.getMessage());
+        }
     }
 
     private ConnectionProvider createMysqlProvider() throws SQLException {
@@ -207,8 +219,17 @@ public final class SqlStorage {
             statement.setInt(9, punishment.getType() == PunishmentType.KICK ? 0 : 1);
             statement.executeUpdate();
             try (ResultSet keys = statement.getGeneratedKeys()) {
-                if (keys.next()) {
+                if (keys != null && keys.next()) {
                     return punishment.withId(keys.getLong(1));
+                }
+            } catch (SQLException ignored) {
+                // legacy SQLite drivers: fall through to last_insert_rowid()
+            }
+            if (settings.sqlite) {
+                try (Statement st = connection.createStatement(); ResultSet rs = st.executeQuery("SELECT last_insert_rowid()")) {
+                    if (rs.next()) {
+                        return punishment.withId(rs.getLong(1));
+                    }
                 }
             }
         }
