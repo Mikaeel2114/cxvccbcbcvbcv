@@ -1,0 +1,90 @@
+# ==========================================================================
+#  ApexBan - config.yml
+#  Works on Bukkit/Spigot/Paper (1.8 - latest), BungeeCord and Velocity.
+#  Run the plugin on your proxy AND your backends with the same MySQL
+#  database to get one network-wide punishment list.
+#  Use /apexban reload after editing. Database and sync settings need a restart.
+# ==========================================================================
+
+# Unique name of this server. It is stored with every punishment and shown as %server%.
+# Use a different value on every backend/proxy that shares the database.
+server-id: "main"
+
+database:
+  # SQLITE = single local file (one server only). MYSQL = shared network-wide storage.
+  type: "SQLITE"
+
+  # Prefix for the tables created by ApexBan (letters, digits and underscores only).
+  table-prefix: "apexban_"
+
+  sqlite:
+    # File name inside the plugin folder.
+    file: "apexban.db"
+
+  mysql:
+    host: "127.0.0.1"
+    port: 3306
+    database: "apexban"
+    username: "root"
+    password: ""
+    use-ssl: false
+    # Maximum number of pooled connections (2 - 32).
+    pool-size: 8
+
+# Reasons used when the staff member does not type one.
+defaults:
+  ban-reason: "Breaking the server rules"
+  mute-reason: "Breaking the chat rules"
+  kick-reason: "Kicked by an operator"
+
+# Timezone for %expires% and %date%. Examples: "UTC", "Europe/Amsterdam", "America/New_York" or "SYSTEM".
+timezone: "UTC"
+
+# Java DateTimeFormatter pattern for %expires% and %date%.
+date-format: "yyyy-MM-dd HH:mm:ss"
+
+# Which actions are announced. Staff with apexban.notify (and the console) see them unless
+# "public" is true, in which case every online player does.
+announcements:
+  ban: true
+  mute: true
+  kick: true
+  unban: true
+  unmute: true
+  public: false
+
+players:
+  # When false, only players who have joined at least once (on any server sharing the database)
+  # can be banned or muted while offline. When true, unknown names are accepted using an
+  # offline-mode UUID - only enable this on offline-mode networks.
+  allow-unknown: false
+
+# Cross-server synchronisation. Every interval the plugin checks the database for punishments
+# issued on other servers against the players online here, so a ban or mute takes effect everywhere.
+sync:
+  enabled: true
+  interval-seconds: 15
+
+login:
+  # What happens when the database cannot be reached while a player joins.
+  # true = let the player in (recommended), false = kick with messages.yml -> login-database-error.
+  fail-open: true
+
+formatting:
+  # true  = full RGB hex colours (&#ff8800 and <#ff8800>) for 1.16+ clients.
+  # false = hex colours are converted to the nearest legacy colour (safe for 1.8 - 1.15 clients).
+  hex-colors: false
+
+mute:
+  # Commands a muted player may not use. Players with an active mute cannot run these.
+  blocked-commands:
+    - "msg"
+    - "tell"
+    - "w"
+    - "whisper"
+    - "r"
+    - "reply"
+    - "me"
+    - "say"
+    - "mail"
+    - "t"

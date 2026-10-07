@@ -1,0 +1,5 @@
+name: ApexBan
+main: dev.apexban.bungee.ApexBanBungee
+version: ${version}
+author: ApexBan
+description: Enterprise moderation core - bans, mutes and kicks with a network-wide database.

@@ -1,0 +1,82 @@
+# ==========================================================================
+#  ApexBan - messages.yml
+#  Supports MiniMessage tags (<red>, <gradient:red:blue>, <#ff8800>, <bold> ...) and legacy
+#  colour codes (&c, &l, &r ... and &#rrggbb). %prefix% is replaced by the prefix below.
+#  Player supplied values such as %reason% are inserted as plain text and never interpreted.
+#
+#  Placeholders:
+#    %player% %operator% %reason% %duration% %expires% %remaining% %id% %server% %date% %type%
+# ==========================================================================
+
+prefix: "&8[&cApexBan&8] &r"
+
+no-permission: "%prefix%&cYou do not have permission to do that."
+database-error: "%prefix%&cA database error occurred. Check the console for details."
+login-database-error: "&cApexBan could not verify your account right now.\n&7Please try again in a moment."
+
+invalid-player-name: "%prefix%&c'%input%' is not a valid player name."
+invalid-duration: "%prefix%&c'%input%' is not a valid duration. Examples: &f30m&c, &f2h&c, &f7d&c, &f1w&c, &f1d12h&c."
+player-not-found: "%prefix%&cNo player named &f%player%&c has joined before."
+player-not-online: "%prefix%&c%player% is not online."
+cannot-punish-self: "%prefix%&cYou cannot punish yourself."
+player-exempt: "%prefix%&c%player% cannot be punished."
+already-banned: "%prefix%&c%player% is already banned. Use /unban first."
+already-muted: "%prefix%&c%player% is already muted. Use /unmute first."
+not-banned: "%prefix%&c%player% is not banned."
+not-muted: "%prefix%&c%player% is not muted."
+
+usage:
+  ban: "%prefix%&cUsage: &f/ban <player> [duration] [reason...] &7(no duration = permanent)"
+  mute: "%prefix%&cUsage: &f/mute <player> [duration] [reason...] &7(no duration = permanent)"
+  kick: "%prefix%&cUsage: &f/kick <player> [reason...]"
+  unban: "%prefix%&cUsage: &f/unban <player>"
+  unmute: "%prefix%&cUsage: &f/unmute <player>"
+
+# Sent to staff (and the console) when an action happens.
+broadcast:
+  ban-permanent: "%prefix%&c%operator% &7permanently banned &c%player% &7- &f%reason% &8(#%id%)"
+  ban-temporary: "%prefix%&c%operator% &7banned &c%player% &7for &e%duration% &7- &f%reason% &8(#%id%)"
+  mute-permanent: "%prefix%&6%operator% &7permanently muted &6%player% &7- &f%reason% &8(#%id%)"
+  mute-temporary: "%prefix%&6%operator% &7muted &6%player% &7for &e%duration% &7- &f%reason% &8(#%id%)"
+  kick: "%prefix%&e%operator% &7kicked &e%player% &7- &f%reason%"
+  unban: "%prefix%&a%operator% &7unbanned &a%player%"
+  unmute: "%prefix%&a%operator% &7unmuted &a%player%"
+
+# Sent to the victim when they are muted while online.
+mute-notice:
+  permanent: "%prefix%&cYou have been permanently muted by &f%operator%&c.\n&7Reason: &f%reason%"
+  temporary: "%prefix%&cYou have been muted by &f%operator%&c for &e%duration%&c.\n&7Reason: &f%reason%"
+
+unmute-notice: "%prefix%&aYou have been unmuted by &f%operator%&a."
+
+# Shown to a muted player who tries to chat or use a blocked command.
+mute-blocked:
+  permanent: "%prefix%&cYou are permanently muted. &7Reason: &f%reason% &8(#%id%)"
+  temporary: "%prefix%&cYou are muted for another &e%remaining%&c. &7Reason: &f%reason% &8(#%id%)"
+
+reload-success: "%prefix%&aConfiguration reloaded. &7(Database and sync settings need a restart.)"
+version: "%prefix%&7ApexBan &f%version% &7running on &f%platform%"
+help:
+  - "&8&m                                        "
+  - "&c&lApexBan &7commands"
+  - "&f/ban <player> [duration] [reason...] &7- ban (permanent without duration)"
+  - "&f/mute <player> [duration] [reason...] &7- mute (permanent without duration)"
+  - "&f/kick <player> [reason...] &7- kick a player"
+  - "&f/unban <player> &7- lift a ban"
+  - "&f/unmute <player> &7- lift a mute"
+  - "&f/apexban reload &7- reload the configuration"
+  - "&8&m                                        "
+
+# Plain words used inside placeholders (no colours here).
+words:
+  permanent: "Permanent"
+  never: "Never"
+  not-available: "N/A"
+
+# Units used to print durations. Format: singular|plural.
+time:
+  day: "day|days"
+  hour: "hour|hours"
+  minute: "minute|minutes"
+  second: "second|seconds"
+  separator: ", "

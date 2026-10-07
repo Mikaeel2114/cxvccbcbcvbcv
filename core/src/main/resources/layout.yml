@@ -1,0 +1,57 @@
+# ==========================================================================
+#  ApexBan - layout.yml
+#  Multi-line disconnect screens. Every entry is one line of the screen.
+#  Supports MiniMessage tags and legacy colour codes (&c, &l, &#rrggbb ...).
+#
+#  Placeholders:
+#    %player%    name of the punished player
+#    %reason%    reason text
+#    %duration%  total length of the punishment ("Permanent" if it never ends)
+#    %expires%   date the punishment ends ("Never" if permanent)
+#    %remaining% time left until it ends
+#    %operator%  staff member (or Console) who issued it
+#    %id%        punishment id, use it for appeals
+#    %server%    server-id of the server that issued it
+#    %date%      date the punishment was issued
+# ==========================================================================
+
+ban:
+  permanent:
+    - "&8&m                                        "
+    - ""
+    - "&c&lYOU ARE PERMANENTLY BANNED"
+    - ""
+    - "&7Reason: &f%reason%"
+    - "&7Banned by: &f%operator%"
+    - "&7Date: &f%date%"
+    - ""
+    - "&7Ban ID: &e#%id%"
+    - "&7Appeal with this ID on our website or Discord."
+    - ""
+    - "&8&m                                        "
+  temporary:
+    - "&8&m                                        "
+    - ""
+    - "&c&lYOU ARE TEMPORARILY BANNED"
+    - ""
+    - "&7Reason: &f%reason%"
+    - "&7Banned by: &f%operator%"
+    - "&7Duration: &f%duration%"
+    - "&7Expires: &f%expires% &8(&7in &e%remaining%&8)"
+    - ""
+    - "&7Ban ID: &e#%id%"
+    - "&7Appeal with this ID on our website or Discord."
+    - ""
+    - "&8&m                                        "
+
+kick:
+  - "&8&m                                        "
+  - ""
+  - "&e&lYOU HAVE BEEN KICKED"
+  - ""
+  - "&7Reason: &f%reason%"
+  - "&7Kicked by: &f%operator%"
+  - ""
+  - "&7You are free to reconnect."
+  - ""
+  - "&8&m                                        "
